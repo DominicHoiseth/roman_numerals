@@ -2,6 +2,12 @@
 #include <string>
 #include <vector>
 
+/*
+
+
+
+*/
+
 using namespace std;
 
 vector<int> get_romanvals(string roman){
@@ -22,22 +28,35 @@ vector<int> get_romanvals(string roman){
 int solution(string roman) {
   
   vector<int> romanvals = get_romanvals(roman);
-  
   int total = 0;
-  int small = 0;
-  int numi = 0;
   for(int i = 0; i < romanvals.size(); i++){
-    if(romanvals[i] == 1){
-      for(int j = i; j < romanvals.size(); j++)
-        if(romanvals[j] > 1){
-          small = romanvals[j] - numi;
-        } else {numi++;}
+    if((i + 1) < romanvals.size()){
+        if(romanvals[i] >= romanvals[i + 1]){
+            total += romanvals[i];
+        } else {
+            total -= romanvals[i];
+        }
+    } else {
+        total += romanvals[i];
     }
-    else {
-      total += romanvals[i];
-    }
-    
+
   }
-        
-  return total + small;
+
+  return total;
+}
+
+
+int main(){
+    cout << "Enter Roman Numerals: ";
+    string num;
+    cin >> num;
+    for(int i = 0; i < num.length(); i++){
+        if(i == ' ' || i == '\n')
+            cout << "please re-enter";
+        num.replace(i, 1, 1, toupper(num[i]));
+    }
+
+    
+    cout << "Value: " << solution(num) << endl;
+
 }
